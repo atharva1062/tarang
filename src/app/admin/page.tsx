@@ -124,9 +124,23 @@ function BODPanel({ team, onRefresh }: { team: TeamMember[]; onRefresh: () => vo
                   <span className="text-white text-xs">📷</span>
                 </div>
               </div>
-              <div>
+              <div className="flex-1 flex flex-col justify-center items-start">
                 <p className="text-xs font-semibold uppercase tracking-wider mb-1 text-orange-500">{m.position}</p>
-                <p className="text-white font-semibold">{m.name || <span className="text-zinc-500 italic text-sm">Not set</span>}</p>
+                <p className="text-white font-semibold mb-2">{m.name || <span className="text-zinc-500 italic text-sm">Not set</span>}</p>
+                {m.photo && (
+                  <button
+                    onClick={async (e) => {
+                      e.stopPropagation();
+                      if (confirm('Remove photo?')) {
+                        await fetch('/api/team', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: m.id, photo: null }) });
+                        onRefresh();
+                      }
+                    }}
+                    className="text-[10px] text-red-500 hover:text-red-400 bg-red-500/10 px-2 py-1 rounded"
+                  >
+                    Remove Photo
+                  </button>
+                )}
               </div>
             </div>
 
@@ -199,13 +213,13 @@ function GalleryPanel({ gallery, onRefresh }: { gallery: GalleryItem[]; onRefres
   const [files,    setFiles]    = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
   const [deleting,  setDeleting]  = useState<string | null>(null);
-  const [preview,   setPreview]   = useState<string[]>([]);
+  const [preview,   setPreview]   = useState<{url: string, type: string}[]>([]);
   const dropRef = useRef<HTMLDivElement>(null);
 
   const handleFiles = (newFiles: File[]) => {
-    const imgs = newFiles.filter(f => f.type.startsWith('image/'));
-    setFiles(imgs);
-    setPreview(imgs.map(f => URL.createObjectURL(f)));
+    const valid = newFiles.filter(f => f.type.startsWith('image/') || f.type.startsWith('video/'));
+    setFiles(valid);
+    setPreview(valid.map(f => ({ url: URL.createObjectURL(f), type: f.type })));
   };
 
   const handleDrop = (e: React.DragEvent) => {
@@ -249,17 +263,21 @@ function GalleryPanel({ gallery, onRefresh }: { gallery: GalleryItem[]; onRefres
           onClick={() => document.getElementById('gallery-file-input')?.click()}
           className="rounded-xl border-2 border-dashed p-8 text-center cursor-pointer transition-all hover:border-red-600/50 border-zinc-800 bg-white/5"
         >
-          <p className="text-4xl mb-2">🖼️</p>
-          <p className="text-zinc-400 text-sm">Drag & drop photos here, or <span className="text-red-500">click to browse</span></p>
-          <p className="text-zinc-600 text-xs mt-1">JPG, PNG, WEBP</p>
-          <input id="gallery-file-input" type="file" multiple accept="image/*" className="hidden" onChange={e => handleFiles(Array.from(e.target.files || []))} />
+          <p className="text-4xl mb-2">🖼️🎥</p>
+          <p className="text-zinc-400 text-sm">Drag & drop media here, or <span className="text-red-500">click to browse</span></p>
+          <p className="text-zinc-600 text-xs mt-1">JPG, PNG, WEBP, MP4, WEBM</p>
+          <input id="gallery-file-input" type="file" multiple accept="image/*,video/*" className="hidden" onChange={e => handleFiles(Array.from(e.target.files || []))} />
         </div>
 
         {preview.length > 0 && (
           <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
-            {preview.map((src, i) => (
-              <div key={i} className="relative aspect-square rounded-lg overflow-hidden">
-                <Image src={src} alt="" fill className="object-cover" sizes="80px" />
+            {preview.map((p, i) => (
+              <div key={i} className="relative aspect-square rounded-lg overflow-hidden bg-black/50">
+                {p.type.startsWith('video/') ? (
+                  <video src={p.url} className="object-cover w-full h-full" muted loop autoPlay playsInline />
+                ) : (
+                  <Image src={p.url} alt="" fill className="object-cover" sizes="80px" />
+                )}
               </div>
             ))}
           </div>
@@ -288,21 +306,25 @@ function GalleryPanel({ gallery, onRefresh }: { gallery: GalleryItem[]; onRefres
           className="w-full py-3 rounded-xl text-white font-semibold text-sm disabled:opacity-40 transition-all hover:-translate-y-0.5"
           style={{ background: 'linear-gradient(135deg,#c0392b,#7d3c98)' }}
         >
-          {uploading ? `Uploading…` : `Upload ${files.length || ''} Photo${files.length !== 1 ? 's' : ''}`}
+          {uploading ? `Uploading…` : `Upload ${files.length || ''} File${files.length !== 1 ? 's' : ''}`}
         </button>
       </div>
 
       <div>
-        <h3 className="text-white font-semibold mb-4">Current Gallery ({gallery.length} photos)</h3>
+        <h3 className="text-white font-semibold mb-4">Current Gallery ({gallery.length} media)</h3>
         {gallery.length === 0 ? (
           <div className="rounded-2xl p-12 text-center border border-dashed border-zinc-800">
-            <p className="text-zinc-500">No photos uploaded yet.</p>
+            <p className="text-zinc-500">No media uploaded yet.</p>
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
             {gallery.map(g => (
-              <div key={g.id} className="relative group rounded-xl overflow-hidden aspect-square">
-                <Image src={g.src} alt={g.alt} fill className="object-cover" sizes="200px" />
+              <div key={g.id} className="relative group rounded-xl overflow-hidden aspect-square bg-black/50">
+                {g.src.match(/\.(mp4|webm|ogg)$/i) ? (
+                  <video src={g.src} className="object-cover w-full h-full" muted loop autoPlay playsInline />
+                ) : (
+                  <Image src={g.src} alt={g.alt} fill className="object-cover" sizes="200px" />
+                )}
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-2">
                   <div className="flex justify-end">
                     <button onClick={() => handleDelete(g.id)} disabled={deleting === g.id} className="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center text-white text-xs">
@@ -762,26 +784,42 @@ export default function AdminPage() {
                   </div>
                   <div className="flex-1">
                     <label className={labelCls}>Upload New Logo (Image file)</label>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={async e => {
-                        const file = e.target.files?.[0];
-                        if (!file) return;
-                        const fd = new FormData();
-                        fd.append('file', file);
-                        setSaving(true);
-                        const res = await fetch('/api/logo/upload', { method: 'POST', body: fd }).then(r => r.json());
-                        setSaving(false);
-                        if (res.success) {
-                          setSite({ ...site, logo: res.logo });
-                          alert('Logo updated successfully!');
-                        } else {
-                          alert(res.error || 'Upload failed');
-                        }
-                      }}
-                      className={inputCls}
-                    />
+                    <div className="flex gap-3 items-center">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={async e => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          const fd = new FormData();
+                          fd.append('file', file);
+                          setSaving(true);
+                          const res = await fetch('/api/logo/upload', { method: 'POST', body: fd }).then(r => r.json());
+                          setSaving(false);
+                          if (res.success) {
+                            setSite({ ...site, logo: res.logo });
+                            alert('Logo updated successfully!');
+                          } else {
+                            alert(res.error || 'Upload failed');
+                          }
+                        }}
+                        className={inputCls}
+                      />
+                      {site.logo && (
+                        <button
+                          onClick={() => {
+                            if (confirm('Remove custom logo?')) {
+                              const newSite = { ...site, logo: null };
+                              setSite(newSite);
+                              saveContent('site', newSite);
+                            }
+                          }}
+                          className="px-4 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-500 text-sm font-medium rounded-lg whitespace-nowrap transition-colors"
+                        >
+                          Remove
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>

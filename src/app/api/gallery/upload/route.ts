@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
   const added: any[] = [];
 
   for (const file of files) {
-    if (!file.type.startsWith('image/')) continue;
+    if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) continue;
     const ext      = file.name.split('.').pop();
     const filename = `gallery-${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
     const filepath = path.join(UPLOAD_DIR, filename);

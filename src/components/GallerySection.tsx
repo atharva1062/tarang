@@ -80,13 +80,21 @@ export default function GallerySection({ initialGallery }: { initialGallery: Gal
                     className="relative overflow-hidden rounded-xl cursor-pointer group aspect-[16/9] w-full"
                     onClick={() => setLightbox(item)}
                   >
-                    <Image
-                      src={item.src}
-                      alt={item.alt}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
-                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                    />
+                    {item.src.match(/\.(mp4|webm|ogg)$/i) ? (
+                      <video
+                        src={item.src}
+                        className="absolute inset-0 object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
+                        muted loop autoPlay playsInline
+                      />
+                    ) : (
+                      <Image
+                        src={item.src}
+                        alt={item.alt}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                      />
+                    )}
                     {/* Hover overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
                       {item.category && (
@@ -119,13 +127,22 @@ export default function GallerySection({ initialGallery }: { initialGallery: Gal
           onClick={() => setLightbox(null)}
         >
           <div className="relative max-w-4xl w-full rounded-2xl overflow-hidden" onClick={e => e.stopPropagation()}>
-            <Image
-              src={lightbox.src}
-              alt={lightbox.alt}
-              width={1200} height={800}
-              className="object-contain w-full"
-              style={{ maxHeight: '80vh' }}
-            />
+            {lightbox.src.match(/\.(mp4|webm|ogg)$/i) ? (
+              <video
+                src={lightbox.src}
+                className="w-full object-contain"
+                style={{ maxHeight: '80vh', backgroundColor: 'black' }}
+                controls autoPlay playsInline
+              />
+            ) : (
+              <Image
+                src={lightbox.src}
+                alt={lightbox.alt}
+                width={1200} height={800}
+                className="object-contain w-full"
+                style={{ maxHeight: '80vh' }}
+              />
+            )}
             <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
               {lightbox.caption  && <p className="text-white text-sm font-medium">{lightbox.caption}</p>}
               {lightbox.category && <p className="text-white/60 text-xs">{lightbox.category}{lightbox.event ? ` • ${lightbox.event}` : ''}</p>}
