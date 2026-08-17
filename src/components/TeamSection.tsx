@@ -68,7 +68,7 @@ export default function TeamSection({ initialTeam }: { initialTeam: TeamMember[]
 
                 {/* Photo */}
                 <div className="relative flex-shrink-0">
-                  <div className="w-32 h-32 sm:w-36 sm:h-36 rounded-full overflow-hidden ring-4" style={{ ringColor: 'rgba(192,57,43,0.5)', border: '3px solid rgba(192,57,43,0.5)' }}>
+                  <div className="w-32 h-32 sm:w-36 sm:h-36 rounded-full overflow-hidden ring-4" style={{ '--tw-ring-color': 'rgba(192,57,43,0.3)', border: '3px solid rgba(192,57,43,0.5)' } as React.CSSProperties}>
                     {m.photo ? (
                       <Image src={m.photo} alt={m.name || 'President'} fill className="object-cover" sizes="144px" />
                     ) : (

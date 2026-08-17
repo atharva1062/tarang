@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import fs from 'fs';
-import path from 'path';
+import { revalidatePath } from 'next/cache';
+import { getStore, setStore } from '@/lib/storage';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,42 +12,33 @@ async function isAuthenticated(): Promise<boolean> {
   return cookieStore.get(SESSION_COOKIE)?.value === 'authenticated';
 }
 
-function getFilePath(file: string) {
-  return path.join(process.cwd(), 'data', `${file}.json`);
-}
-
-function readJSON(file: string) {
-  const filePath = getFilePath(file);
-  if (!fs.existsSync(filePath)) return null;
-  return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-}
-
-function writeJSON(file: string, data: any) {
-  const filePath = getFilePath(file);
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-}
-
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const type = searchParams.get('type');
 
   if (type) {
-    const data = readJSON(type);
+    const data = await getStore(type);
     if (!data) return NextResponse.json({ error: 'Not found' }, { status: 404 });
     return NextResponse.json(data);
   }
 
   // Return all content
+  const [hero, about, site, journey, events] = await Promise.all([
+    getStore('hero'),
+    getStore('about'),
+    getStore('site'),
+    getStore('journey'),
+    getStore('events'),
+  ]);
+
   return NextResponse.json({
-    hero: readJSON('hero'),
-    about: readJSON('about'),
-    site: readJSON('site'),
-    journey: readJSON('journey'),
-    events: readJSON('events'),
+    hero,
+    about,
+    site,
+    journey,
+    events,
   });
 }
-
-import { revalidatePath } from 'next/cache';
 
 export async function PUT(req: NextRequest) {
   if (!await isAuthenticated()) {
@@ -64,8 +55,7 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid type' }, { status: 400 });
   }
 
-  writeJSON(type, data);
+  await setStore(type, data);
   revalidatePath('/');
   return NextResponse.json({ success: true, data });
 }
-

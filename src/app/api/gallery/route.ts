@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import fs from 'fs';
-import path from 'path';
+import { revalidatePath } from 'next/cache';
+import { getStore, setStore, deleteMedia } from '@/lib/storage';
 
 export const dynamic = 'force-dynamic';
 
-const DATA_FILE = path.join(process.cwd(), 'data', 'gallery.json');
 const SESSION_COOKIE = 'tarang_admin_session';
 
 async function isAuthenticated(): Promise<boolean> {
@@ -14,25 +13,22 @@ async function isAuthenticated(): Promise<boolean> {
 }
 
 export async function GET() {
-  const data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
+  const data = (await getStore('gallery')) || [];
   return NextResponse.json(data);
 }
-
-import { revalidatePath } from 'next/cache';
 
 export async function DELETE(req: NextRequest) {
   if (!await isAuthenticated()) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
   const { id } = await req.json();
-  const data: any[] = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
+  const data: any[] = (await getStore('gallery')) || [];
   const item = data.find(g => g.id === id);
-  if (item) {
-    const imgPath = path.join(process.cwd(), 'public', item.src);
-    if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
+  if (item && item.src) {
+    await deleteMedia(item.src);
   }
   const updated = data.filter(g => g.id !== id);
-  fs.writeFileSync(DATA_FILE, JSON.stringify(updated, null, 2));
+  await setStore('gallery', updated);
   revalidatePath('/');
   return NextResponse.json({ success: true });
 }

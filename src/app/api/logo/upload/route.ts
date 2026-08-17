@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import fs from 'fs';
-import path from 'path';
 import { revalidatePath } from 'next/cache';
+import { getStore, setStore, uploadMedia, deleteMedia } from '@/lib/storage';
 
-const UPLOAD_DIR = path.join(process.cwd(), 'public', 'uploads');
-const DATA_FILE  = path.join(process.cwd(), 'data', 'site.json');
+export const dynamic = 'force-dynamic';
+
 const SESSION_COOKIE = 'tarang_admin_session';
 
 export async function POST(req: NextRequest) {
@@ -26,31 +25,19 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Only images allowed' }, { status: 400 });
   }
 
-  // Ensure uploads folder exists
-  if (!fs.existsSync(UPLOAD_DIR)) {
-    fs.mkdirSync(UPLOAD_DIR, { recursive: true });
-  }
-
-  // Save file
-  const ext      = file.name.split('.').pop();
-  const filename = `logo-${Date.now()}.${ext}`;
-  const filepath = path.join(UPLOAD_DIR, filename);
-  const buffer   = Buffer.from(await file.arrayBuffer());
-  fs.writeFileSync(filepath, buffer);
+  // Upload media
+  const url = await uploadMedia(file, 'logo');
 
   // Update site.json
-  const data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
+  const data = (await getStore('site')) || {};
   
   // Delete old custom logo if exists
   if (data.logo) {
-    const oldPath = path.join(process.cwd(), 'public', data.logo);
-    if (fs.existsSync(oldPath)) {
-      try { fs.unlinkSync(oldPath); } catch (e) {}
-    }
+    await deleteMedia(data.logo);
   }
 
-  data.logo = `/uploads/${filename}`;
-  fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+  data.logo = url;
+  await setStore('site', data);
 
   revalidatePath('/');
   return NextResponse.json({ success: true, logo: data.logo });

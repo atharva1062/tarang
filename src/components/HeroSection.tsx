@@ -186,7 +186,7 @@ export default function HeroSection({ hero, logo }: { hero: any; logo: string })
           {/* Logo image */}
           <div
             className="relative w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 rounded-full overflow-hidden ring-4"
-            style={{ ringColor: 'rgba(192,57,43,0.6)' }}
+            style={{ '--tw-ring-color': 'rgba(192,57,43,0.6)' } as React.CSSProperties}
           >
             <Image
               src={logo}

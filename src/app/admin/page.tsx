@@ -90,7 +90,15 @@ function BODPanel({ team, onRefresh }: { team: TeamMember[]; onRefresh: () => vo
 
   const handleSave = async (id: string) => {
     setSaving(true);
-    await fetch('/api/team', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, ...form }) });
+    try {
+      const res = await fetch('/api/team', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, ...form }) });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        alert('Failed to save: ' + (err.error || res.statusText));
+      }
+    } catch (e: any) {
+      alert('Error saving: ' + e.message);
+    }
     setSaving(false); setEditing(null); onRefresh();
   };
 

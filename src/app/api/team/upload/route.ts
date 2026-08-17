@@ -1,13 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import fs from 'fs';
-import path from 'path';
-
-const UPLOAD_DIR = path.join(process.cwd(), 'public', 'uploads', 'team');
-const DATA_FILE  = path.join(process.cwd(), 'data', 'team.json');
-const SESSION_COOKIE = 'tarang_admin_session';
-
 import { revalidatePath } from 'next/cache';
+import { getStore, setStore, uploadMedia, deleteMedia } from '@/lib/storage';
+
+export const dynamic = 'force-dynamic';
+
+const SESSION_COOKIE = 'tarang_admin_session';
 
 export async function POST(req: NextRequest) {
   const cookieStore = await cookies();
@@ -28,26 +26,21 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Only images allowed' }, { status: 400 });
   }
 
-  // Save file
-  const ext      = file.name.split('.').pop();
-  const filename = `${memberId}-${Date.now()}.${ext}`;
-  const filepath = path.join(UPLOAD_DIR, filename);
-  const buffer   = Buffer.from(await file.arrayBuffer());
-  fs.writeFileSync(filepath, buffer);
+  // Upload media
+  const url = await uploadMedia(file, `team-${memberId}`);
 
   // Update team.json
-  const data: any[] = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
+  const data: any[] = (await getStore('team')) || [];
   const index = data.findIndex(m => m.id === memberId);
   if (index !== -1) {
     // Delete old photo if exists
     if (data[index].photo) {
-      const oldPath = path.join(process.cwd(), 'public', data[index].photo);
-      if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+      await deleteMedia(data[index].photo);
     }
-    data[index].photo = `/uploads/team/${filename}`;
-    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+    data[index].photo = url;
+    await setStore('team', data);
   }
 
   revalidatePath('/');
-  return NextResponse.json({ url: `/uploads/team/${filename}` });
+  return NextResponse.json({ url });
 }
