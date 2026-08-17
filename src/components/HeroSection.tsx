@@ -114,8 +114,16 @@ export default function HeroSection({ hero, logo }: { hero: any; logo: string })
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden noise-bg"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden noise-bg bg-black"
     >
+      {hero?.videoBg && (
+        <video
+          src={hero.videoBg}
+          className="absolute inset-0 w-full h-full object-cover opacity-30 pointer-events-none mix-blend-screen"
+          muted loop autoPlay playsInline
+          aria-hidden="true"
+        />
+      )}
       <StarField />
       <Orbs />
 

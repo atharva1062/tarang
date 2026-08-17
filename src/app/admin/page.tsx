@@ -507,6 +507,55 @@ export default function AdminPage() {
                 <label className={labelCls}>Hero Tagline</label>
                 <textarea rows={3} value={hero.tagline || ''} onChange={e => setHero({ ...hero, tagline: e.target.value })} className={inputCls + ' resize-none'} />
               </div>
+              <div className="col-span-2 border-t border-zinc-800 pt-6 mt-2">
+                <h4 className="text-white font-semibold text-sm mb-4">Background Video (Optional)</h4>
+                <div className="flex gap-4 items-center">
+                  <div className="flex-1">
+                    <label className={labelCls}>Upload Hero Video (MP4/WEBM)</label>
+                    <div className="flex gap-3 items-center">
+                      <input
+                        type="file"
+                        accept="video/*"
+                        onChange={async e => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          const fd = new FormData();
+                          fd.append('file', file);
+                          setSaving(true);
+                          const res = await fetch('/api/hero/upload', { method: 'POST', body: fd }).then(r => r.json());
+                          setSaving(false);
+                          if (res.success) {
+                            setHero({ ...hero, videoBg: res.videoBg });
+                            alert('Video updated successfully!');
+                          } else {
+                            alert(res.error || 'Upload failed');
+                          }
+                        }}
+                        className={inputCls}
+                      />
+                      {hero.videoBg && (
+                        <button
+                          onClick={() => {
+                            if (confirm('Remove hero background video?')) {
+                              const newHero = { ...hero, videoBg: null };
+                              setHero(newHero);
+                              saveContent('hero', newHero);
+                            }
+                          }}
+                          className="px-4 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-500 text-sm font-medium rounded-lg whitespace-nowrap transition-colors"
+                        >
+                          Remove Video
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                  {hero.videoBg && (
+                    <div className="w-32 h-20 rounded-lg overflow-hidden bg-black flex-shrink-0">
+                      <video src={hero.videoBg} className="w-full h-full object-cover" muted loop autoPlay playsInline />
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           </FormSection>
         )}
