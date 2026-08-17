@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
+export const dynamic = 'force-dynamic';
+
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'TarangDIT@2026';
 const SESSION_COOKIE = 'tarang_admin_session';
 

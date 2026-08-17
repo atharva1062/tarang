@@ -3,6 +3,8 @@ import { cookies } from 'next/headers';
 import fs from 'fs';
 import path from 'path';
 
+export const dynamic = 'force-dynamic';
+
 const DATA_FILE = path.join(process.cwd(), 'data', 'gallery.json');
 const SESSION_COOKIE = 'tarang_admin_session';
 

@@ -3,6 +3,8 @@ import { cookies } from 'next/headers';
 import fs from 'fs';
 import path from 'path';
 
+export const dynamic = 'force-dynamic';
+
 const SESSION_COOKIE = 'tarang_admin_session';
 
 async function isAuthenticated(): Promise<boolean> {

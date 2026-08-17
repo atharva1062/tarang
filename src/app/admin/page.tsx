@@ -373,9 +373,9 @@ export default function AdminPage() {
 
   const fetchAllData = async () => {
     const [teamRes, galleryRes, contentRes] = await Promise.all([
-      fetch('/api/team').then(r => r.json()),
-      fetch('/api/gallery').then(r => r.json()),
-      fetch('/api/content').then(r => r.json())
+      fetch('/api/team', { cache: 'no-store' }).then(r => r.json()),
+      fetch('/api/gallery', { cache: 'no-store' }).then(r => r.json()),
+      fetch('/api/content', { cache: 'no-store' }).then(r => r.json())
     ]);
     setTeam(teamRes);
     setGallery(galleryRes);
