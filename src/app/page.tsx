@@ -27,17 +27,19 @@ export default function Home() {
   const team    = readJSON('team')    || [];
   const gallery = readJSON('gallery') || [];
 
+  const logo    = site?.logo        || '/logo.png';
+
   return (
     <main className="min-h-screen">
-      <Navbar site={site} />
-      <HeroSection hero={hero} />
-      <AboutSection about={about} />
+      <Navbar site={site} logo={logo} />
+      <HeroSection hero={hero} logo={logo} />
+      <AboutSection about={about} logo={logo} />
       <JourneySection journey={journey} />
       <EventsSection events={events} />
       <TeamSection initialTeam={team} />
       <GallerySection initialGallery={gallery} />
       <ContactSection site={site} />
-      <Footer site={site} />
+      <Footer site={site} logo={logo} />
     </main>
   );
 }

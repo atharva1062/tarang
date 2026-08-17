@@ -749,6 +749,43 @@ export default function AdminPage() {
                 </div>
               </div>
 
+              {/* Logo Upload */}
+              <div className="col-span-2 border-t border-zinc-800 pt-6 mt-2">
+                <h4 className="text-white font-semibold text-sm mb-4">Website Logo</h4>
+                <div className="flex items-center gap-4">
+                  <div className="relative w-16 h-16 rounded-full overflow-hidden border border-zinc-800 bg-white/5 flex-shrink-0">
+                    {site.logo ? (
+                      <Image src={site.logo} alt="Logo" fill className="object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-zinc-500">Logo</div>
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <label className={labelCls}>Upload New Logo (Image file)</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={async e => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        const fd = new FormData();
+                        fd.append('file', file);
+                        setSaving(true);
+                        const res = await fetch('/api/logo/upload', { method: 'POST', body: fd }).then(r => r.json());
+                        setSaving(false);
+                        if (res.success) {
+                          setSite({ ...site, logo: res.logo });
+                          alert('Logo updated successfully!');
+                        } else {
+                          alert(res.error || 'Upload failed');
+                        }
+                      }}
+                      className={inputCls}
+                    />
+                  </div>
+                </div>
+              </div>
+
               {/* Motivations & Privacy arrays */}
               <div className="col-span-2 border-t border-zinc-800 pt-6 mt-2 grid grid-cols-2 gap-4">
                 <div>

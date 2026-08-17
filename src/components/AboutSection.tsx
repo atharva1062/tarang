@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 
-export default function AboutSection({ about }: { about: any }) {
+export default function AboutSection({ about, logo }: { about: any; logo: string }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -79,7 +79,7 @@ export default function AboutSection({ about }: { about: any }) {
                 aria-hidden="true"
               />
               <div className="relative w-56 h-56 rounded-full overflow-hidden ring-2 ring-white/10">
-                <Image src="/logo.png" alt="Tarang Logo" fill className="object-cover" sizes="224px" />
+                <Image src={logo} alt="Tarang Logo" fill className="object-cover" sizes="224px" />
               </div>
             </div>
 

@@ -13,7 +13,7 @@ const navLinks = [
   { label: 'Contact', href: '#contact' },
 ];
 
-export default function Navbar({ site }: { site: any }) {
+export default function Navbar({ site, logo }: { site: any; logo: string }) {
   const [scrolled,   setScrolled]   = useState(false);
   const [menuOpen,   setMenuOpen]   = useState(false);
   const [activeLink, setActiveLink] = useState('#home');
@@ -47,7 +47,7 @@ export default function Navbar({ site }: { site: any }) {
         {/* Logo + Name */}
         <a href="#home" className="flex items-center gap-3 group">
           <div className="relative w-10 h-10 rounded-full overflow-hidden ring-2 ring-cultural-red/40 group-hover:ring-cultural-orange/60 transition-all duration-300">
-            <Image src="/logo.png" alt="Tarang Cultural Club Logo" fill className="object-cover" sizes="40px" />
+            <Image src={logo} alt="Tarang Cultural Club Logo" fill className="object-cover" sizes="40px" />
           </div>
           <div className="flex flex-col leading-tight">
             <span className="text-lg font-bold tracking-wide gradient-text" style={{ fontFamily: "'Noto Sans Devanagari', sans-serif" }}>

@@ -83,7 +83,7 @@ function Orbs() {
   );
 }
 
-export default function HeroSection({ hero }: { hero: any }) {
+export default function HeroSection({ hero, logo }: { hero: any; logo: string }) {
   const logoRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -181,7 +181,7 @@ export default function HeroSection({ hero }: { hero: any }) {
             style={{ ringColor: 'rgba(192,57,43,0.6)' }}
           >
             <Image
-              src="/logo.png"
+              src={logo}
               alt="Tarang Cultural Club Logo"
               fill
               priority

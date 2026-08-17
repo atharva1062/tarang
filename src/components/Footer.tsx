@@ -12,7 +12,7 @@ const footerLinks = [
   { label: 'Contact', href: '#contact' },
 ];
 
-export default function Footer({ site }: { site: any }) {
+export default function Footer({ site, logo }: { site: any; logo: string }) {
   const year = new Date().getFullYear();
 
   const addressDept = site?.addressDept || "AI & DS Dept";
@@ -59,7 +59,7 @@ export default function Footer({ site }: { site: any }) {
           <div className="flex flex-col gap-5">
             <div className="flex items-center gap-3">
               <div className="relative w-12 h-12 rounded-full overflow-hidden ring-2 ring-cultural-red/40">
-                <Image src="/logo.png" alt="Tarang Logo" fill className="object-cover" sizes="48px" />
+                <Image src={logo} alt="Tarang Logo" fill className="object-cover" sizes="48px" />
               </div>
               <div>
                 <p className="text-xl font-bold gradient-text" style={{ fontFamily: "'Noto Sans Devanagari', sans-serif" }}>तरंग</p>
@@ -184,7 +184,6 @@ export default function Footer({ site }: { site: any }) {
         {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/30">
           <p>© {year} Tarang Cultural Club — AI &amp; Data Science Department, {addressClg}. All rights reserved.</p>
-          <p>Made with <span className="text-cultural-red">♥</span> by the Tarang Core Team</p>
         </div>
       </div>
     </footer>
