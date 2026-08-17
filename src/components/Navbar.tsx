@@ -74,12 +74,49 @@ export default function Navbar({ site }: { site: any }) {
         </ul>
 
         {/* Social icons — desktop */}
-        <div className="hidden md:flex items-center gap-3">
-          <a href={instagram} target="_blank" rel="noopener noreferrer"
-            className="w-9 h-9 rounded-xl glass flex items-center justify-center text-base hover:-translate-y-0.5 transition-transform" aria-label="Instagram">📸</a>
-          <a href={linkedin} target="_blank" rel="noopener noreferrer"
-            className="w-9 h-9 rounded-xl glass flex items-center justify-center text-base hover:-translate-y-0.5 transition-transform" aria-label="LinkedIn">💼</a>
-        </div>
+       <div className="hidden md:flex items-center gap-3">
+  {/* Instagram */}
+  <a
+    href={instagram}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="w-9 h-9 rounded-xl glass flex items-center justify-center hover:-translate-y-0.5 transition-transform"
+    aria-label="Instagram"
+  >
+    <svg
+      viewBox="0 0 24 24"
+      className="w-5 h-5"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  </a>
+
+  {/* LinkedIn */}
+  <a
+    href={linkedin}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="w-9 h-9 rounded-xl glass flex items-center justify-center hover:-translate-y-0.5 transition-transform"
+    aria-label="LinkedIn"
+  >
+    <svg
+      viewBox="0 0 24 24"
+      className="w-5 h-5"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M6.5 8.5H3.2V21h3.3V8.5ZM4.85 3C3.8 3 3 3.8 3 4.85S3.8 6.7 4.85 6.7s1.85-.8 1.85-1.85S5.9 3 4.85 3ZM21 13.9c0-3.76-2-5.5-4.67-5.5-2.15 0-3.1 1.18-3.63 2.01V8.5H9.4V21h3.3v-6.19c0-1.63.3-3.2 2.32-3.2 1.99 0 2.02 1.86 2.02 3.32V21H21v-7.1Z" />
+    </svg>
+  </a>
+</div>
 
         {/* Mobile hamburger */}
         <button
@@ -107,10 +144,49 @@ export default function Navbar({ site }: { site: any }) {
               {link.label}
             </a>
           ))}
-          <div className="flex gap-3 pt-2">
-            <a href={instagram} target="_blank" rel="noopener noreferrer" className="text-white/60 text-sm hover:text-white transition-colors">📸 Instagram</a>
-            <a href={linkedin} target="_blank" rel="noopener noreferrer" className="text-white/60 text-sm hover:text-white transition-colors">💼 LinkedIn</a>
-          </div>
+          <div className="flex gap-5 pt-2">
+  <a
+    href={instagram}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="flex items-center gap-2 text-white/60 text-sm hover:text-white transition-colors"
+    aria-label="Instagram"
+  >
+    <svg
+      viewBox="0 0 24 24"
+      className="w-5 h-5"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+    </svg>
+    Instagram
+  </a>
+
+  <a
+    href={linkedin}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="flex items-center gap-2 text-white/60 text-sm hover:text-white transition-colors"
+    aria-label="LinkedIn"
+  >
+    <svg
+      viewBox="0 0 24 24"
+      className="w-5 h-5"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M6.5 8.5H3.2V21h3.3V8.5ZM4.85 3C3.8 3 3 3.8 3 4.85S3.8 6.7 4.85 6.7s1.85-.8 1.85-1.85S5.9 3 4.85 3ZM21 13.9c0-3.76-2-5.5-4.67-5.5-2.15 0-3.1 1.18-3.63 2.01V8.5H9.4V21h3.3v-6.19c0-1.63.3-3.2 2.32-3.2 1.99 0 2.02 1.86 2.02 3.32V21H21v-7.1Z" />
+    </svg>
+    LinkedIn
+  </a>
+</div>
         </div>
       </div>
     </nav>
