@@ -3,21 +3,7 @@
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 
-const pillars = [
-  { icon: '🎭', title: 'Drama & Theatre',   desc: 'Street plays, one-acts, and grand theatrical productions that bring stories to life.',          color: '#c0392b' },
-  { icon: '💃', title: 'Dance & Movement',  desc: 'Classical, folk, and contemporary dance forms celebrated across every cultural event.',         color: '#7d3c98' },
-  { icon: '🎶', title: 'Music & Singing',   desc: 'Vocal and instrumental performances honoring festivals, traditions, and cultural moments.',      color: '#e67e22' },
-  { icon: '🎨', title: 'Visual Arts',       desc: 'Rangoli, posters, digital art, and creative installations for every occasion.',                 color: '#1abc9c' },
-];
-
-const motivations = [
-  'Cultural Celebration',
-  'Creative Expression',
-  'Community Building',
-  'Cultural Awareness & Education',
-];
-
-export default function AboutSection() {
+export default function AboutSection({ about }: { about: any }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -39,6 +25,28 @@ export default function AboutSection() {
     return () => observer.disconnect();
   }, []);
 
+  const subtitle = about?.subtitle || "Who We Are";
+  const title = about?.title || "About Tarang";
+  const heading = about?.heading || "The Cultural Heartbeat of the AIDS Department";
+  const paragraphs = about?.paragraphs || [
+    "Tarang (तरंग) — meaning \"wave\" in Hindi — is the official cultural club of the Artificial Intelligence & Data Science department at DIT Pimpri. We celebrate every festival, every occasion, and every tradition with full heart.",
+    "From Teachers Day to Dussehra, from Children's Day to Engineers Day and Science Day — Tarang brings colour, creativity, and community to every celebration. We believe that art and culture are the soul of every institution."
+  ];
+  const stats = about?.stats || [
+    { "value": "2023", "label": "Founded" },
+    { "value": "5", "label": "Teams" },
+    { "value": "10+", "label": "Events" }
+  ];
+  const quote = about?.quote || "Where every celebration becomes a memory, and every performance tells a story — Tarang is where the AIDS department truly comes alive.";
+  const quoteAuthor = about?.quoteAuthor || "Tarang Core Team";
+  
+  const pillars = about?.pillars || [
+    { icon: '🎭', title: 'Drama & Theatre',   desc: 'Street plays, one-acts, and grand theatrical productions that bring stories to life.',          color: '#c0392b' },
+    { icon: '💃', title: 'Dance & Movement',  desc: 'Classical, folk, and contemporary dance forms celebrated across every cultural event.',         color: '#7d3c98' },
+    { icon: '🎶', title: 'Music & Singing',   desc: 'Vocal and instrumental performances honoring festivals, traditions, and cultural moments.',      color: '#e67e22' },
+    { icon: '🎨', title: 'Visual Arts',       desc: 'Rangoli, posters, digital art, and creative installations for every occasion.',                 color: '#1abc9c' }
+  ];
+
   return (
     <section id="about" ref={ref} className="relative py-28 overflow-hidden">
       <div
@@ -53,9 +61,9 @@ export default function AboutSection() {
       <div className="relative z-10 max-w-7xl mx-auto section-padding">
         {/* Header */}
         <div className="text-center mb-20 reveal" style={{ opacity: 0 }}>
-          <p className="text-cultural-orange text-sm font-semibold tracking-widest uppercase mb-3">Who We Are</p>
+          <p className="text-cultural-orange text-sm font-semibold tracking-widest uppercase mb-3">{subtitle}</p>
           <h2 className="section-title text-white">
-            About <span className="gradient-text">Tarang</span>
+            {title.split(' ')[0]} <span className="gradient-text">{title.split(' ').slice(1).join(' ')}</span>
           </h2>
           <div className="mt-4 mx-auto w-20 h-1 rounded-full bg-gradient-to-r from-cultural-red to-cultural-purple" />
         </div>
@@ -77,11 +85,7 @@ export default function AboutSection() {
 
             {/* Stats */}
             <div className="grid grid-cols-3 gap-4 w-full max-w-xs">
-              {[
-                { value: '2023', label: 'Founded' },
-                { value: '5',    label: 'Teams' },
-                { value: '10+',  label: 'Events' },
-              ].map(s => (
+              {stats.map((s: any) => (
                 <div key={s.label} className="glass-card rounded-2xl p-4 text-center">
                   <p className="text-2xl font-bold gradient-text-warm">{s.value}</p>
                   <p className="text-xs text-white/50 mt-1">{s.label}</p>
@@ -94,27 +98,13 @@ export default function AboutSection() {
           <div className="space-y-6">
             <div className="reveal" style={{ opacity: 0 }}>
               <h3 className="text-2xl font-bold text-white mb-3">
-                The Cultural Heartbeat of the <span className="gradient-text">AIDS Department</span>
+                {heading.split(' ').slice(0, -3).join(' ')} <span className="gradient-text">{heading.split(' ').slice(-3).join(' ')}</span>
               </h3>
-              <p className="text-white/65 leading-relaxed text-base">
-                <strong className="text-white/90">Tarang</strong> (तरंग) — meaning <em>&ldquo;wave&rdquo;</em> in Hindi — is the official cultural club of the Artificial Intelligence &amp; Data Science department at DIT Pimpri. We celebrate every festival, every occasion, and every tradition with full heart.
-              </p>
-            </div>
-
-            <p className="text-white/65 leading-relaxed reveal" style={{ opacity: 0 }}>
-              From Teachers Day to Dussehra, from Children's Day to Engineers Day and Science Day — Tarang brings colour, creativity, and community to every celebration. We believe that art and culture are the soul of every institution.
-            </p>
-
-            {/* Motivations */}
-            <div className="reveal" style={{ opacity: 0 }}>
-              <p className="text-white/80 text-sm font-semibold mb-3 uppercase tracking-wider">Our Motivations</p>
-              <div className="flex flex-wrap gap-2">
-                {motivations.map(m => (
-                  <span key={m} className="px-3 py-1.5 rounded-full text-sm text-white/70 border border-white/10" style={{ background: 'rgba(192,57,43,0.08)' }}>
-                    {m}
-                  </span>
-                ))}
-              </div>
+              {paragraphs.map((p: string, i: number) => (
+                <p key={i} className="text-white/65 leading-relaxed text-base mb-4">
+                  {p}
+                </p>
+              ))}
             </div>
 
             <div
@@ -122,16 +112,16 @@ export default function AboutSection() {
               style={{ background: 'linear-gradient(135deg, rgba(192,57,43,0.08), rgba(125,60,152,0.08))', border: '1px solid rgba(192,57,43,0.2)', opacity: 0 }}
             >
               <p className="text-white/80 italic text-base font-light leading-relaxed">
-                &ldquo;Where every celebration becomes a memory, and every performance tells a story — Tarang is where the AIDS department truly comes alive.&rdquo;
+                &ldquo;{quote}&rdquo;
               </p>
-              <p className="text-cultural-orange text-sm mt-3 font-medium">— Tarang Core Team</p>
+              <p className="text-cultural-orange text-sm mt-3 font-medium">— {quoteAuthor}</p>
             </div>
           </div>
         </div>
 
         {/* Pillars */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-20">
-          {pillars.map((p, i) => (
+          {pillars.map((p: any, i: number) => (
             <div
               key={p.title}
               className="glass-card rounded-2xl p-6 group reveal"

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 
 interface TeamMember {
@@ -25,16 +25,8 @@ const POSITION_COLORS: Record<string, string> = {
   'media':            '#c0392b',
 };
 
-export default function TeamSection() {
-  const [team, setTeam] = useState<TeamMember[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch('/api/team')
-      .then(r => r.json())
-      .then(data => { setTeam(data); setLoading(false); })
-      .catch(() => setLoading(false));
-  }, []);
+export default function TeamSection({ initialTeam }: { initialTeam: TeamMember[] }) {
+  const [team] = useState<TeamMember[]>(initialTeam);
 
   return (
     <section id="team" className="relative py-28 overflow-hidden">
@@ -57,9 +49,9 @@ export default function TeamSection() {
           </p>
         </div>
 
-        {loading ? (
-          <div className="flex justify-center py-16">
-            <div className="w-10 h-10 border-2 border-cultural-red border-t-transparent rounded-full animate-spin" />
+        {team.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-white/40">No team members added yet.</p>
           </div>
         ) : (
           <>

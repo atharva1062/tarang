@@ -5,15 +5,15 @@ import Image from 'next/image';
 
 const navLinks = [
   { label: 'Home',    href: '#home' },
-  { label: 'About',  href: '#about' },
-  { label: 'Journey',href: '#journey' },
-  { label: 'Events', href: '#events' },
-  { label: 'Team',   href: '#team' },
-  { label: 'Gallery',href: '#gallery' },
-  { label: 'Contact',href: '#contact' },
+  { label: 'About',   href: '#about' },
+  { label: 'Journey', href: '#journey' },
+  { label: 'Events',  href: '#events' },
+  { label: 'Team',    href: '#team' },
+  { label: 'Gallery', href: '#gallery' },
+  { label: 'Contact', href: '#contact' },
 ];
 
-export default function Navbar() {
+export default function Navbar({ site }: { site: any }) {
   const [scrolled,   setScrolled]   = useState(false);
   const [menuOpen,   setMenuOpen]   = useState(false);
   const [activeLink, setActiveLink] = useState('#home');
@@ -33,6 +33,9 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const instagram = site?.instagram || '#';
+  const linkedin  = site?.linkedin  || '#';
 
   return (
     <nav
@@ -72,9 +75,9 @@ export default function Navbar() {
 
         {/* Social icons — desktop */}
         <div className="hidden md:flex items-center gap-3">
-          <a href="https://www.instagram.com/tarang.dypdpu" target="_blank" rel="noopener noreferrer"
+          <a href={instagram} target="_blank" rel="noopener noreferrer"
             className="w-9 h-9 rounded-xl glass flex items-center justify-center text-base hover:-translate-y-0.5 transition-transform" aria-label="Instagram">📸</a>
-          <a href="https://www.linkedin.com/company/tarang-dit" target="_blank" rel="noopener noreferrer"
+          <a href={linkedin} target="_blank" rel="noopener noreferrer"
             className="w-9 h-9 rounded-xl glass flex items-center justify-center text-base hover:-translate-y-0.5 transition-transform" aria-label="LinkedIn">💼</a>
         </div>
 
@@ -105,8 +108,8 @@ export default function Navbar() {
             </a>
           ))}
           <div className="flex gap-3 pt-2">
-            <a href="https://www.instagram.com/tarang.dypdpu" target="_blank" rel="noopener noreferrer" className="text-white/60 text-sm hover:text-white transition-colors">📸 Instagram</a>
-            <a href="https://www.linkedin.com/company/tarang-dit" target="_blank" rel="noopener noreferrer" className="text-white/60 text-sm hover:text-white transition-colors">💼 LinkedIn</a>
+            <a href={instagram} target="_blank" rel="noopener noreferrer" className="text-white/60 text-sm hover:text-white transition-colors">📸 Instagram</a>
+            <a href={linkedin} target="_blank" rel="noopener noreferrer" className="text-white/60 text-sm hover:text-white transition-colors">💼 LinkedIn</a>
           </div>
         </div>
       </div>

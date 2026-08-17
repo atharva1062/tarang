@@ -1,10 +1,18 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
 /* ─── Animated starfield ─── */
 function StarField() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
       {Array.from({ length: 80 }).map((_, i) => {
@@ -29,6 +37,7 @@ function StarField() {
     </div>
   );
 }
+
 
 /* ─── Floating orbs ─── */
 function Orbs() {
@@ -74,7 +83,7 @@ function Orbs() {
   );
 }
 
-export default function HeroSection() {
+export default function HeroSection({ hero }: { hero: any }) {
   const logoRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -96,6 +105,11 @@ export default function HeroSection() {
       document.removeEventListener('mouseleave', handleLeave);
     };
   }, []);
+
+  const badge = hero?.badge || "DIT Pimpri • AI & DS Cultural Club";
+  const titleDevanagari = hero?.titleDevanagari || "तरंग";
+  const titleEnglish = hero?.titleEnglish || "Cultural Club";
+  const tagline = hero?.tagline || "Where creativity meets expression — celebrating culture, art, and community in the heart of DIT.";
 
   return (
     <section
@@ -129,7 +143,7 @@ export default function HeroSection() {
           }}
         >
           <span className="w-2 h-2 rounded-full bg-cultural-red animate-pulse" />
-          DIT Pimpri • AI &amp; Data Science Cultural Club
+          {badge}
         </div>
 
         {/* Animated logo with glow ring */}
@@ -183,10 +197,10 @@ export default function HeroSection() {
             className="block gradient-text mb-1"
             style={{ fontFamily: "'Noto Sans Devanagari', sans-serif", fontSize: 'clamp(3rem, 8vw, 6rem)' }}
           >
-            तरंग
+            {titleDevanagari}
           </span>
           <span className="block text-white/90 text-2xl sm:text-3xl lg:text-4xl font-light tracking-widest uppercase">
-            Cultural Club
+            {titleEnglish}
           </span>
         </h1>
 
@@ -195,9 +209,7 @@ export default function HeroSection() {
           className="mt-6 max-w-2xl text-lg sm:text-xl text-white/60 leading-relaxed font-light"
           style={{ animation: 'fadeInUp 0.8s ease 0.3s forwards', opacity: 0 }}
         >
-          Where <span className="text-cultural-orange font-medium">creativity</span> meets{' '}
-          <span className="text-cultural-purple font-medium">expression</span> — celebrating
-          culture, art, and community in the heart of DIT.
+          {tagline}
         </p>
 
         {/* CTA buttons */}

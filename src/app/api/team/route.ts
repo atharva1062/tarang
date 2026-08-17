@@ -16,6 +16,8 @@ export async function GET() {
   return NextResponse.json(data);
 }
 
+import { revalidatePath } from 'next/cache';
+
 export async function PUT(req: NextRequest) {
   if (!await isAuthenticated()) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -26,5 +28,6 @@ export async function PUT(req: NextRequest) {
   if (index === -1) return NextResponse.json({ error: 'Not found' }, { status: 404 });
   data[index] = { ...data[index], ...body };
   fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+  revalidatePath('/');
   return NextResponse.json(data[index]);
 }

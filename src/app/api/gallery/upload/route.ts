@@ -7,6 +7,8 @@ const UPLOAD_DIR = path.join(process.cwd(), 'public', 'uploads', 'gallery');
 const DATA_FILE  = path.join(process.cwd(), 'data', 'gallery.json');
 const SESSION_COOKIE = 'tarang_admin_session';
 
+import { revalidatePath } from 'next/cache';
+
 export async function POST(req: NextRequest) {
   const cookieStore = await cookies();
   if (cookieStore.get(SESSION_COOKIE)?.value !== 'authenticated') {
@@ -47,5 +49,6 @@ export async function POST(req: NextRequest) {
   }
 
   fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
+  revalidatePath('/');
   return NextResponse.json({ added });
 }

@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "id": "g-teachers-day-2023",
+    "src": "/uploads/gallery/teachers-day-2023.jpg",
+    "alt": "Teachers Day Celebration 2023",
+    "category": "Teachers Day",
+    "event": "Teachers Day Celebration",
+    "caption": "Gratitude ceremony, cake cutting, and performances with our faculty members."
+  },
+  {
+    "id": "g-dussehra-2023",
+    "src": "/uploads/gallery/dussehra-2023.jpg",
+    "alt": "Dussehra Celebration 2023",
+    "category": "Dussehra",
+    "event": "Dussehra Celebration",
+    "caption": "Cultural team gathering with traditional attire and social awareness play."
+  }
+]

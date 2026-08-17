@@ -1,0 +1,74 @@
+[
+  {
+    "id": 1,
+    "title": "Teachers Day Celebration",
+    "date": "September 5, 2025",
+    "type": "Cultural Event",
+    "desc": "A heartfelt tribute to our beloved teachers — celebrating their dedication, love, and guidance with performances, skits, and special moments of appreciation.",
+    "status": "upcoming",
+    "color": "#c0392b",
+    "icon": "🎓",
+    "venue": "College Auditorium",
+    "highlights": ["Cultural Performances", "Skit", "Gratitude Ceremony", "Surprise Acts"]
+  },
+  {
+    "id": 2,
+    "title": "Dussehra Celebration",
+    "date": "October 2024",
+    "type": "Festival Celebration",
+    "desc": "Tarang celebrated Dussehra with a unique blend of cultural celebration and social awareness — including a powerful street play on cybersecurity.",
+    "status": "past",
+    "color": "#7d3c98",
+    "icon": "🎉",
+    "venue": "College Campus",
+    "highlights": ["Street Play", "Cultural Dance", "Cybersecurity Awareness"]
+  },
+  {
+    "id": 3,
+    "title": "Children's Day Celebration",
+    "date": "November 2023",
+    "type": "Cultural Event",
+    "desc": "Bringing out the inner child in everyone — with joyful performances, games, and activities that celebrated the spirit of innocence and creativity.",
+    "status": "past",
+    "color": "#1abc9c",
+    "icon": "🎈",
+    "venue": "Department Hall",
+    "highlights": ["Fun Activities", "Cultural Shows", "Games"]
+  },
+  {
+    "id": 4,
+    "title": "Engineers Day Celebration",
+    "date": "September 2024",
+    "type": "Cultural Event",
+    "desc": "Honoring the spirit of engineering through cultural performances and creative showcases dedicated to the great engineers who shaped our nation.",
+    "status": "past",
+    "color": "#e67e22",
+    "icon": "⚙️",
+    "venue": "College Auditorium",
+    "highlights": ["Cultural Acts", "Tribute Show", "Performances"]
+  },
+  {
+    "id": 5,
+    "title": "Science Day Celebration",
+    "date": "February 2024",
+    "type": "Cultural Event",
+    "desc": "National Science Day was celebrated with cultural flair — showcasing the beauty of science through art, drama, and creative expression.",
+    "status": "past",
+    "color": "#1abc9c",
+    "icon": "🔬",
+    "venue": "Department Courtyard",
+    "highlights": ["Science-themed Drama", "Art Display", "Cultural Performances"]
+  },
+  {
+    "id": 6,
+    "title": "Teachers Day Celebration",
+    "date": "September 2023",
+    "type": "Cultural Event",
+    "desc": "Tarang's very first Teachers Day celebration — a heartfelt tribute blending gratitude with creativity as students and faculty came together in joy and cultural expressions.",
+    "status": "past",
+    "color": "#c0392b",
+    "icon": "🌹",
+    "venue": "Department Hall",
+    "highlights": ["First Edition", "Cultural Performances", "Faculty Appreciation"]
+  }
+]

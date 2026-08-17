@@ -1,26 +1,16 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 interface GalleryItem {
   id: string; src: string; alt: string; category: string; event: string; caption: string;
 }
 
-const CATEGORIES = ['All', 'General', 'Teachers Day', "Children's Day", 'Engineers Day', 'Science Day', 'Dussehra', 'Ganesh Utsav', 'Other'];
-
-export default function GallerySection() {
-  const [gallery,  setGallery]  = useState<GalleryItem[]>([]);
+export default function GallerySection({ initialGallery }: { initialGallery: GalleryItem[] }) {
+  const [gallery]       = useState<GalleryItem[]>(initialGallery);
   const [filter,   setFilter]   = useState('All');
   const [lightbox, setLightbox] = useState<GalleryItem | null>(null);
-  const [loading,  setLoading]  = useState(true);
-
-  useEffect(() => {
-    fetch('/api/gallery')
-      .then(r => r.json())
-      .then(data => { setGallery(data); setLoading(false); })
-      .catch(() => setLoading(false));
-  }, []);
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setLightbox(null); };
@@ -49,12 +39,7 @@ export default function GallerySection() {
           <div className="mt-4 mx-auto w-20 h-1 rounded-full bg-gradient-to-r from-cultural-orange to-cultural-red" />
         </div>
 
-        {loading ? (
-          <div className="flex justify-center py-16">
-            <div className="w-10 h-10 border-2 border-cultural-orange border-t-transparent rounded-full animate-spin" />
-          </div>
-        ) : gallery.length === 0 ? (
-          /* Empty state */
+        {gallery.length === 0 ? (
           <div className="text-center py-24 rounded-3xl" style={{ border: '1px dashed rgba(255,255,255,0.08)' }}>
             <p className="text-6xl mb-4">📷</p>
             <h3 className="text-xl font-semibold text-white mb-2">Gallery Coming Soon</h3>
@@ -64,7 +49,7 @@ export default function GallerySection() {
           </div>
         ) : (
           <>
-            {/* Category filter — only show categories that have photos */}
+            {/* Category filter */}
             <div className="flex flex-wrap justify-center gap-2.5 mb-10">
               {usedCats.map(cat => (
                 <button
@@ -86,14 +71,13 @@ export default function GallerySection() {
               ))}
             </div>
 
-            {/* Masonry grid */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 auto-rows-[180px]">
+            {/* Uniform grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {filtered.map((item, i) => {
-                const isLarge = i % 7 === 0;
                 return (
                   <div
                     key={item.id}
-                    className={`relative overflow-hidden rounded-xl cursor-pointer group ${isLarge ? 'col-span-2 row-span-2' : ''}`}
+                    className="relative overflow-hidden rounded-xl cursor-pointer group aspect-[16/9] w-full"
                     onClick={() => setLightbox(item)}
                   >
                     <Image

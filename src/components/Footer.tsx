@@ -12,22 +12,29 @@ const footerLinks = [
   { label: 'Contact', href: '#contact' },
 ];
 
-const motivations = [
-  'Cultural Celebration',
-  'Creative Expression',
-  'Community Building',
-  'Cultural Awareness & Education',
-];
-
-const privacyLinks = [
-  'Information Collection',
-  'Data Usage & Purpose',
-  'Data Security Measures',
-  'User Rights & Choices',
-];
-
-export default function Footer() {
+export default function Footer({ site }: { site: any }) {
   const year = new Date().getFullYear();
+
+  const addressDept = site?.addressDept || "AI & DS Dept";
+  const addressClg  = site?.addressClg  || "DIT Pimpri";
+  const addressPin  = site?.addressPin  || "411018";
+  const email       = site?.email       || "tarang.dyp@gmail.com";
+  const instagram   = site?.instagram   || "https://www.instagram.com/tarang.dypdpu";
+  const linkedin    = site?.linkedin    || "https://www.linkedin.com/company/tarang-dit";
+
+  const motivations = site?.motivations || [
+    "Cultural Celebration",
+    "Creative Expression",
+    "Community Building",
+    "Cultural Awareness & Education"
+  ];
+
+  const privacyPolicy = site?.privacyPolicy || [
+    "Information Collection",
+    "Data Usage & Purpose",
+    "Data Security Measures",
+    "User Rights & Choices"
+  ];
 
   return (
     <footer className="relative pt-20 pb-8 overflow-hidden">
@@ -63,15 +70,15 @@ export default function Footer() {
               The cultural heartbeat of the AI &amp; Data Science department, DIT Pimpri.
             </p>
             <div className="flex gap-3">
-              <a href="https://www.instagram.com/tarang.dypdpu" target="_blank" rel="noopener noreferrer"
+              <a href={instagram} target="_blank" rel="noopener noreferrer"
                 className="w-10 h-10 rounded-xl glass flex items-center justify-center text-lg hover:-translate-y-1 transition-transform duration-200" aria-label="Instagram">
                 📸
               </a>
-              <a href="https://www.linkedin.com/company/tarang-dit" target="_blank" rel="noopener noreferrer"
+              <a href={linkedin} target="_blank" rel="noopener noreferrer"
                 className="w-10 h-10 rounded-xl glass flex items-center justify-center text-lg hover:-translate-y-1 transition-transform duration-200" aria-label="LinkedIn">
                 💼
               </a>
-              <a href="mailto:tarang.dyp@gmail.com"
+              <a href={`mailto:${email}`}
                 className="w-10 h-10 rounded-xl glass flex items-center justify-center text-lg hover:-translate-y-1 transition-transform duration-200" aria-label="Email">
                 📧
               </a>
@@ -82,7 +89,7 @@ export default function Footer() {
           <div>
             <h4 className="text-sm font-semibold text-white/80 uppercase tracking-widest mb-5">Motivations</h4>
             <ul className="space-y-3">
-              {motivations.map(m => (
+              {motivations.map((m: string) => (
                 <li key={m} className="text-sm text-white/50">{m}</li>
               ))}
             </ul>
@@ -92,7 +99,7 @@ export default function Footer() {
           <div>
             <h4 className="text-sm font-semibold text-white/80 uppercase tracking-widest mb-5">Privacy Policy</h4>
             <ul className="space-y-3">
-              {privacyLinks.map(p => (
+              {privacyPolicy.map((p: string) => (
                 <li key={p}>
                   <a href="#" className="text-sm text-white/50 hover:text-cultural-orange transition-colors duration-200">{p}</a>
                 </li>
@@ -104,11 +111,11 @@ export default function Footer() {
           <div>
             <h4 className="text-sm font-semibold text-white/80 uppercase tracking-widest mb-5">Address</h4>
             <address className="not-italic space-y-1 text-sm text-white/50">
-              <p>AI &amp; DS Dept</p>
-              <p>DIT Pimpri</p>
-              <p>411018</p>
-              <a href="mailto:tarang.dyp@gmail.com" className="block mt-3 hover:text-cultural-orange transition-colors">
-                tarang.dyp@gmail.com
+              <p>{addressDept}</p>
+              <p>{addressClg}</p>
+              <p>{addressPin}</p>
+              <a href={`mailto:${email}`} className="block mt-3 hover:text-cultural-orange transition-colors">
+                {email}
               </a>
             </address>
           </div>
@@ -128,7 +135,7 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/30">
-          <p>© {year} Tarang Cultural Club — AI &amp; Data Science Department, DIT Pimpri. All rights reserved.</p>
+          <p>© {year} Tarang Cultural Club — AI &amp; Data Science Department, {addressClg}. All rights reserved.</p>
           <p>Made with <span className="text-cultural-red">♥</span> by the Tarang Core Team</p>
         </div>
       </div>

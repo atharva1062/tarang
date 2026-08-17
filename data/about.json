@@ -1,0 +1,22 @@
+{
+  "subtitle": "Who We Are",
+  "title": "About Tarang",
+  "heading": "The Cultural Heartbeat of the AIDS Department",
+  "paragraphs": [
+    "Tarang (तरंग) — meaning \"wave\" in Hindi — is the official cultural club of the Artificial Intelligence & Data Science department at DIT Pimpri. We celebrate every festival, every occasion, and every tradition with full heart.",
+    "From Teachers Day to Dussehra, from Children's Day to Engineers Day and Science Day — Tarang brings colour, creativity, and community to every celebration. We believe that art and culture are the soul of every institution."
+  ],
+  "stats": [
+    { "value": "2023", "label": "Founded" },
+    { "value": "5", "label": "Teams" },
+    { "value": "10+", "label": "Events" }
+  ],
+  "quote": "Where every celebration becomes a memory, and every performance tells a story — Tarang is where the AIDS department truly comes alive.",
+  "quoteAuthor": "Tarang Core Team",
+  "pillars": [
+    { "icon": "🎭", "title": "Drama & Theatre", "desc": "Street plays, one-acts, and grand theatrical productions that bring stories to life.", "color": "#c0392b" },
+    { "icon": "💃", "title": "Dance & Movement", "desc": "Classical, folk, and contemporary dance forms celebrated across every cultural event.", "color": "#7d3c98" },
+    { "icon": "🎶", "title": "Music & Singing", "desc": "Vocal and instrumental performances honoring festivals, traditions, and cultural moments.", "color": "#e67e22" },
+    { "icon": "🎨", "title": "Visual Arts", "desc": "Rangoli, posters, digital art, and creative installations for every occasion.", "color": "#1abc9c" }
+  ]
+}

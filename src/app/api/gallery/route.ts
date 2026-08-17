@@ -16,6 +16,8 @@ export async function GET() {
   return NextResponse.json(data);
 }
 
+import { revalidatePath } from 'next/cache';
+
 export async function DELETE(req: NextRequest) {
   if (!await isAuthenticated()) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -29,5 +31,6 @@ export async function DELETE(req: NextRequest) {
   }
   const updated = data.filter(g => g.id !== id);
   fs.writeFileSync(DATA_FILE, JSON.stringify(updated, null, 2));
+  revalidatePath('/');
   return NextResponse.json({ success: true });
 }

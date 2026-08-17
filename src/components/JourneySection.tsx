@@ -2,58 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 
-const milestones = [
-  {
-    year: 'Aug 2023',
-    title: 'Foundation of Club',
-    desc: 'On August 2023, Tarang was born as a cultural haven at DIT, laying its foundation in a spirit of diversity, creativity, and unity, poised to become the vibrant heartbeat of our college community. 🎡',
-    color: '#c0392b',
-    icon: '🌱',
-    hasPhoto: false,
-  },
-  {
-    year: 'Sep 2023',
-    title: 'Teachers Day Celebration',
-    desc: "Tarang's Teachers Day celebration (Sep'23) was a heartfelt tribute to our guiding lights, blending gratitude with creativity as students and faculty came together for a memorable event filled with joy, appreciation, and cultural expressions. 🎉",
-    color: '#e67e22',
-    icon: '🎤',
-    hasPhoto: false,
-  },
-  {
-    year: 'Oct 2023',
-    title: 'Dussehra Celebration',
-    desc: "Tarang's Dussehra event (Oct'23) illuminated the festival with a unique twist, as we combined cultural celebration with a crucial social cause — raising awareness about cybersecurity and presented it via a street play. 🥁",
-    color: '#7d3c98',
-    icon: '🎉',
-    hasPhoto: false,
-  },
-  {
-    year: 'Nov 2023',
-    title: "Children's Day Celebration",
-    desc: "On Children's Day, Tarang brought out the inner child in everyone — with games, performances, and joyful activities that reminded us all of the innocence and creativity we carry within.",
-    color: '#1abc9c',
-    icon: '🎈',
-    hasPhoto: false,
-  },
-  {
-    year: '2024',
-    title: 'Engineers Day & Science Day',
-    desc: "Tarang celebrated Engineers Day and National Science Day with cultural performances, street plays, and creative showcases — honoring India's great scientific and engineering minds through art and expression.",
-    color: '#e67e22',
-    icon: '🔬',
-    hasPhoto: false,
-  },
-  {
-    year: '2024–25',
-    title: 'Growing Stronger',
-    desc: "Tarang continues to grow — organizing more events, welcoming new members, and cementing its place as the cultural heart of the AI & Data Science department at DIT Pimpri.",
-    color: '#c0392b',
-    icon: '🚀',
-    hasPhoto: false,
-  },
-];
-
-export default function JourneySection() {
+export default function JourneySection({ journey }: { journey: any[] }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -74,7 +23,7 @@ export default function JourneySection() {
     );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
-  }, []);
+  }, [journey]);
 
   return (
     <section id="journey" ref={ref} className="relative py-28 overflow-hidden">
@@ -101,49 +50,56 @@ export default function JourneySection() {
           {/* Left line mobile */}
           <div className="absolute left-6 w-0.5 top-0 bottom-0 timeline-line rounded-full opacity-30 lg:hidden" aria-hidden="true" />
 
-          <div className="space-y-10">
-            {milestones.map((m, i) => {
-              const isLeft = i % 2 === 0;
-              return (
-                <div
-                  key={i}
-                  className={`milestone-card relative flex gap-6 lg:gap-0 ${isLeft ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}
-                  style={{ opacity: 0 }}
-                >
-                  {/* Card */}
+          {journey.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-white/40">No milestones added yet. Add them in the admin panel!</p>
+            </div>
+          ) : (
+            <div className="space-y-10">
+              {journey.map((m: any, i: number) => {
+                const isLeft = i % 2 === 0;
+                const color = m.color || '#c0392b';
+                return (
                   <div
-                    className={`glass-card rounded-2xl p-6 flex-1 lg:w-[calc(50%-3rem)] ${isLeft ? 'lg:mr-auto lg:pr-12' : 'lg:ml-auto lg:pl-12'} ml-12 lg:ml-0`}
-                    style={{ borderColor: m.color + '30' }}
+                    key={m.id || i}
+                    className={`milestone-card relative flex gap-6 lg:gap-0 ${isLeft ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}
+                    style={{ opacity: 0 }}
                   >
-                    <span
-                      className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-3"
-                      style={{ background: m.color + '22', color: m.color }}
+                    {/* Card */}
+                    <div
+                      className={`glass-card rounded-2xl p-6 flex-1 lg:w-[calc(50%-3rem)] ${isLeft ? 'lg:mr-auto lg:pr-12' : 'lg:ml-auto lg:pl-12'} ml-12 lg:ml-0`}
+                      style={{ borderColor: color + '30' }}
                     >
-                      {m.year}
-                    </span>
-                    <h3 className="text-lg font-bold text-white mb-2">{m.title}</h3>
-                    <p className="text-white/60 text-sm leading-relaxed">{m.desc}</p>
-                  </div>
+                      <span
+                        className="inline-block px-3 py-1 rounded-full text-xs font-bold mb-3"
+                        style={{ background: color + '22', color: color }}
+                      >
+                        {m.year}
+                      </span>
+                      <h3 className="text-lg font-bold text-white mb-2">{m.title}</h3>
+                      <p className="text-white/60 text-sm leading-relaxed">{m.desc}</p>
+                    </div>
 
-                  {/* Icon — desktop */}
-                  <div
-                    className="hidden lg:flex absolute left-1/2 top-6 -translate-x-1/2 w-12 h-12 rounded-full items-center justify-center text-xl z-10"
-                    style={{ background: m.color + '22', border: `2px solid ${m.color}` }}
-                  >
-                    {m.icon}
-                  </div>
+                    {/* Icon — desktop */}
+                    <div
+                      className="hidden lg:flex absolute left-1/2 top-6 -translate-x-1/2 w-12 h-12 rounded-full items-center justify-center text-xl z-10"
+                      style={{ background: color + '22', border: `2px solid ${color}` }}
+                    >
+                      {m.icon || '📍'}
+                    </div>
 
-                  {/* Icon — mobile */}
-                  <div
-                    className="lg:hidden absolute left-0 top-6 w-10 h-10 rounded-full flex items-center justify-center text-lg z-10"
-                    style={{ background: m.color + '22', border: `2px solid ${m.color}` }}
-                  >
-                    {m.icon}
+                    {/* Icon — mobile */}
+                    <div
+                      className="lg:hidden absolute left-0 top-6 w-10 h-10 rounded-full flex items-center justify-center text-lg z-10"
+                      style={{ background: color + '22', border: `2px solid ${color}` }}
+                    >
+                      {m.icon || '📍'}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </section>

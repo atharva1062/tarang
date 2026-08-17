@@ -1,12 +1,16 @@
 'use client';
 
-const socials = [
-  { label: 'Instagram', icon: '📸', href: 'https://www.instagram.com/tarang.dypdpu', color: '#e67e22' },
-  { label: 'LinkedIn',  icon: '💼', href: 'https://www.linkedin.com/company/tarang-dit', color: '#1abc9c' },
-  { label: 'Email',     icon: '📧', href: 'mailto:tarang.dyp@gmail.com', color: '#c0392b' },
-];
+export default function ContactSection({ site }: { site: any }) {
+  const instagram = site?.instagram || 'https://www.instagram.com/tarang.dypdpu';
+  const linkedin  = site?.linkedin  || 'https://www.linkedin.com/company/tarang-dit';
+  const email     = site?.email     || 'tarang.dyp@gmail.com';
 
-export default function ContactSection() {
+  const socials = [
+    { label: 'Instagram', icon: '📸', href: instagram, color: '#e67e22' },
+    { label: 'LinkedIn',  icon: '💼', href: linkedin,  color: '#1abc9c' },
+    { label: 'Email',     icon: '📧', href: `mailto:${email}`, color: '#c0392b' },
+  ];
+
   return (
     <section id="contact" className="relative py-28 overflow-hidden">
       <div
@@ -27,7 +31,7 @@ export default function ContactSection() {
         </p>
 
         {/* Social cards */}
-        <div className="flex flex-wrap justify-center gap-5 mb-16">
+        <div className="flex flex-wrap justify-center gap-5">
           {socials.map(s => (
             <a
               key={s.label}
@@ -42,33 +46,6 @@ export default function ContactSection() {
               <span className="font-semibold text-sm" style={{ color: s.color }}>{s.label}</span>
             </a>
           ))}
-        </div>
-
-        {/* Info cards */}
-        <div className="grid sm:grid-cols-3 gap-5 text-left">
-          <div className="glass-card rounded-2xl p-5">
-            <p className="text-cultural-orange font-semibold text-sm mb-3 uppercase tracking-wider">Address</p>
-            <p className="text-white/60 text-sm leading-relaxed">
-              AI &amp; DS Dept<br />
-              DIT Pimpri<br />
-              411018
-            </p>
-          </div>
-          <div className="glass-card rounded-2xl p-5">
-            <p className="text-cultural-orange font-semibold text-sm mb-3 uppercase tracking-wider">Email</p>
-            <a href="mailto:tarang.dyp@gmail.com" className="text-white/60 text-sm hover:text-cultural-orange transition-colors">
-              tarang.dyp@gmail.com
-            </a>
-          </div>
-          <div className="glass-card rounded-2xl p-5">
-            <p className="text-cultural-orange font-semibold text-sm mb-3 uppercase tracking-wider">Motivations</p>
-            <ul className="space-y-1 text-white/60 text-sm">
-              <li>Cultural Celebration</li>
-              <li>Creative Expression</li>
-              <li>Community Building</li>
-              <li>Cultural Awareness</li>
-            </ul>
-          </div>
         </div>
       </div>
     </section>

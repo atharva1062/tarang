@@ -1,0 +1,50 @@
+[
+  {
+    "id": "j-1",
+    "year": "Aug 2023",
+    "title": "Foundation of Club",
+    "desc": "On August 2023, Tarang was born as a cultural haven at DIT, laying its foundation in a spirit of diversity, creativity, and unity, poised to become the vibrant heartbeat of our college community. 🎡",
+    "color": "#c0392b",
+    "icon": "🌱"
+  },
+  {
+    "id": "j-2",
+    "year": "Sep 2023",
+    "title": "Teachers Day Celebration",
+    "desc": "Tarang's Teachers Day celebration (Sep'23) was a heartfelt tribute to our guiding lights, blending gratitude with creativity as students and faculty came together for a memorable event filled with joy, appreciation, and cultural expressions. 🎉",
+    "color": "#e67e22",
+    "icon": "🎤"
+  },
+  {
+    "id": "j-3",
+    "year": "Oct 2023",
+    "title": "Dussehra Celebration",
+    "desc": "Tarang's Dussehra event (Oct'23) illuminated the festival with a unique twist, as we combined cultural celebration with a crucial social cause — raising awareness about cybersecurity and presented it via a street play. 🥁",
+    "color": "#7d3c98",
+    "icon": "🎉"
+  },
+  {
+    "id": "j-4",
+    "year": "Nov 2023",
+    "title": "Children's Day Celebration",
+    "desc": "On Children's Day, Tarang brought out the inner child in everyone — with games, performances, and joyful activities that reminded us all of the innocence and creativity we carry within.",
+    "color": "#1abc9c",
+    "icon": "🎈"
+  },
+  {
+    "id": "j-5",
+    "year": "2024",
+    "title": "Engineers Day & Science Day",
+    "desc": "Tarang celebrated Engineers Day and National Science Day with cultural performances, street plays, and creative showcases — honoring India's great scientific and engineering minds through art and expression.",
+    "color": "#e67e22",
+    "icon": "🔬"
+  },
+  {
+    "id": "j-6",
+    "year": "2024–25",
+    "title": "Growing Stronger",
+    "desc": "Tarang continues to grow — organizing more events, welcoming new members, and cementing its place as the cultural heart of the AI & Data Science department at DIT Pimpri.",
+    "color": "#c0392b",
+    "icon": "🚀"
+  }
+]
