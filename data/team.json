@@ -1,0 +1,8 @@
+[
+  { "id": "president",            "position": "President",              "name": "", "photo": "", "quote": "" },
+  { "id": "event-management",     "position": "Event Management Head",  "name": "", "photo": "", "quote": "" },
+  { "id": "cultural",             "position": "Cultural Head",          "name": "", "photo": "", "quote": "" },
+  { "id": "technical",            "position": "Technical Team Head",    "name": "", "photo": "", "quote": "" },
+  { "id": "design",               "position": "Design Team Head",       "name": "", "photo": "", "quote": "" },
+  { "id": "media",                "position": "Media / PR / Video Head","name": "", "photo": "", "quote": "" }
+]
