@@ -10,17 +10,37 @@ const useBlob = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
 export async function getStore(key: string) {
   if (useKV) {
     try {
-      return await kv.get(key);
+      const kvData = await kv.get(key);
+      if (kvData !== null && kvData !== undefined) {
+        return kvData;
+      }
+      // KV returned null — try to seed from local JSON file
+      const localData = readLocalJSON(key);
+      if (localData !== null) {
+        console.log(`KV empty for "${key}", seeding from local JSON...`);
+        try { await kv.set(key, localData); } catch (e) { console.error(`KV seed error for ${key}:`, e); }
+        return localData;
+      }
+      return null;
     } catch (e) {
       console.error(`KV GET Error for ${key}:`, e);
-      return null;
+      // On KV error, fall back to local JSON
+      return readLocalJSON(key);
     }
   }
 
-  // Fallback to local JSON
+  // No KV — use local JSON
+  return readLocalJSON(key);
+}
+
+function readLocalJSON(key: string) {
   const filePath = path.join(process.cwd(), 'data', `${key}.json`);
   if (!fs.existsSync(filePath)) return null;
-  return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+  try {
+    return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+  } catch (e) {
+    return null;
+  }
 }
 
 export async function setStore(key: string, data: any) {
